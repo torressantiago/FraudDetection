@@ -2,7 +2,7 @@
 Proyecto desarrollado por Santiago Torres y Victor Munera como proyecto para la clase de Inteligencia Artificial en la Pontificia Universidad Javeriana.
 
 # Introducción
-Este proyecto busca continuar la invitación hecha en https://bit.ly/2zjyIwv[1] un reto de kaggle.com y Vesta Corportation para mejorar los algoritmos de prevención de fraude financiero. El ejercicio ilustra que los algoritmos de machine learning que normalmente se utilizan, si bien efectivos, no siempre son perfectos. EL problema propone hacer la revisión de diferentes algoritmos para obtener cuál es el mejor. Sin embargo, nuestra propuesta es desarrollar un nuevo algoritmo de prevención basado en machine learning a partir de la base de datos propuesta por Vesta Corportation. La base de datos contiene 591 datos de tipo de transacción, si la transacción fue fraude, tipo de tarjeta, dominio del cuál proviene la solicitud de transacción, entre otros.
+Este proyecto busca continuar la invitación hecha en https://bit.ly/2zjyIwv [1] un reto de kaggle.com y Vesta Corportation para mejorar los algoritmos de prevención de fraude financiero. El ejercicio ilustra que los algoritmos de machine learning que normalmente se utilizan, si bien efectivos, no siempre son perfectos. EL problema propone hacer la revisión de diferentes algoritmos para obtener cuál es el mejor. Sin embargo, nuestra propuesta es desarrollar un nuevo algoritmo de prevención basado en machine learning a partir de la base de datos propuesta por Vesta Corportation. La base de datos contiene 591 datos de tipo de transacción, si la transacción fue fraude, tipo de tarjeta, dominio del cuál proviene la solicitud de transacción, entre otros.
 
 # Problema a solucionar
 El problema a solucionar es el de fraude electrónico en donde se genera comportamiento anómalo en las compras o transacciones que utilizan medios digitales, tal es el caso de las compras utilizando tarjetas de crédito.
@@ -19,7 +19,7 @@ Es por esto, que se considera importante la implementación en software que cump
 Se propone entonces realizar al menos cuatro algoritmos de clasificación a partir de un modelo de entrenamiento supervisado. El sistema deberá reconocer dos clases, si la transacción fue fraudulenta o si la transacción no lo fue. En ese orden de ideas, el sistema se utilizaría los datos provistos en la base de datos en cuestión, estos son: tipo de transacción, si la transacción fue fraude, tipo de tarjeta, dominio del cuál proviene la solicitud de transacción, entre otros.
 
 # Referencias utilizadas para este proyecto
-[1] I. C. I. Society. (2019). IEEE-CIS Fraud Detection, Vesta, dirección: https://www.kaggle.com/c/ieee-fraud-detection/overview.
+[1] I. C. I. Society. (2019). IEEE-CIS Fraud Detection, Vesta, dirección: https://www.kaggle.com/c/ieee-fraud-detection/overview
 
 [2] Portafolio. (2017). El fraude electrónico, el principal problema del sistema financiero, Portafolio,
-dirección: https://www.portafolio.co/economia/finanzas/fraudeelectronico-el-principal-problema-del-sistema-financiero-
+dirección: https://www.portafolio.co/economia/finanzas/fraude-electronico-el-principal-problema-del-sistema-financiero-511655
