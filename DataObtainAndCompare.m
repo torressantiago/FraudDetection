@@ -292,7 +292,7 @@ for i = 1:15
 end
 
 % M1 - M9
-for i = 1:15
+for i = 1:9
     figure
     histogram(DNoFraud(:,i),100)
     hold on
