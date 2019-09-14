@@ -146,15 +146,15 @@ legend('No fradulento','Fraudulento')
 title('Transaction amount')
 
 % ProductCD
-figure
-histogram(ProductCDNoFraud,100)
-hold on
-histogram(ProductCDIsFraud,100)
-hold off
-xlabel('Transaction amount')
-grid on
-legend('No fradulento','Fraudulento')
-title('Transaction amount')
+% figure
+% histogram(ProductCDNoFraud,100)
+% hold on
+% histogram(ProductCDIsFraud,100)
+% hold off
+% xlabel('Transaction amount')
+% grid on
+% legend('No fradulento','Fraudulento')
+% title('Transaction amount')
 
 % Card1 - Card6
 figure
@@ -187,15 +187,15 @@ grid on
 legend('No fradulento','Fraudulento')
 title('Card 3')
 
-figure
-histogram(CardNoFraud(:,4),100)
-hold on
-histogram(CardIsFraud(:,4),100)
-hold off
-xlabel('Card 4')
-grid on
-legend('No fradulento','Fraudulento')
-title('Card 4')
+% figure
+% histogram(CardNoFraud(:,4),100)
+% hold on
+% histogram(CardIsFraud(:,4),100)
+% hold off
+% xlabel('Card 4')
+% grid on
+% legend('No fradulento','Fraudulento')
+% title('Card 4')
 
 figure
 histogram(table2array(CardNoFraud(:,5)),100)
@@ -207,15 +207,15 @@ grid on
 legend('No fradulento','Fraudulento')
 title('Card 5')
 
-figure
-histogram(CardNoFraud(:,6),100)
-hold on
-histogram(CardIsFraud(:,6),100)
-hold off
-xlabel('Card 6')
-grid on
-legend('No fradulento','Fraudulento')
-title('Card 6')
+% figure
+% histogram(CardNoFraud(:,6),100)
+% hold on
+% histogram(CardIsFraud(:,6),100)
+% hold off
+% xlabel('Card 6')
+% grid on
+% legend('No fradulento','Fraudulento')
+% title('Card 6')
 
 % Address
 figure
@@ -260,7 +260,17 @@ legend('No fradulento','Fraudulento')
 title('Distance between payment address and billing address')
 
 % P_EmailDomain
+P_EmailDomainIsFraud = table2cell(P_EmailDomainIsFraud);
+P_Domains = unique(P_EmailDomainIsFraud);
 
+for i = 1:42
+    P_EmailDomainIsFraud = strrep(P_EmailDomainIsFraud,P_Domains(i,:),num2str(i));
+end
+P_EmailDomainIsFraud = strrep(P_EmailDomainIsFraud,{'15.com'},{'15'});
+NaNP_EmailDomainIsFraud = cellfun('isempty',P_EmailDomainIsFraud);
+P_EmailDomainIsFraud(NaNP_EmailDomainIsFraud==1,:) = [P_EmailDomainIsFraud(NaNP_EmailDomainIsFraud==1,:),table2cell(table(num2str(NaNP_EmailDomainIsFraud(NaNP_EmailDomainIsFraud==1,:))))];
+P_EmailDomainIsFraud = cell2table(P_EmailDomainIsFraud);
+P_EmailDomainIsFraud = table2array(P_EmailDomainIsFraud);
 
 % R_EmailDomain
 
@@ -292,17 +302,16 @@ for i = 1:15
 end
 
 % M1 - M9
-for i = 1:9
-    figure
-    histogram(DNoFraud(:,i),100)
-    hold on
-    histogram(DIsFraud(:,i),100)
-    hold off
-    xlabel(['D',num2str(i)])
-    grid on
-    legend('No fradulento','Fraudulento')
-    title('D')
-end
+% for i = 1:9
+%     figure
+%     histogram(DNoFraud(:,i),100)
+%     hold on
+%     histogram(DIsFraud(:,i),100)
+%     hold off
+%     xlabel(['D',num2str(i)])
+%     grid on
+%     legend('No fradulento','Fraudulento')
+%     title('D')
+% end
 
 % V1 - V339 % Will not be plotted for resources reasons
-
