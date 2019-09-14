@@ -1,7 +1,7 @@
-%% ObtenciÛn de datos y visualizaciÛn de datos
-% A travÈs de este script, se busca separar los datos que corresponden a
+%% Obtenci√≥n de datos y visualizaci√≥n de datos
+% A trav√©s de este script, se busca separar los datos que corresponden a
 % fraude de los datos que no corresponden a fraude y visualizarlos para
-% identificar caracterÌsticas clave de cada clase.
+% identificar caracter√≠sticas clave de cada clase.
 clear all
 close all
 clc
@@ -11,7 +11,7 @@ fprintf('Cargando Datos\n')
 TrainDataFile = 'Data/train_transaction.csv';
 TrainData = readtable(TrainDataFile);
 %% Procesamiento de los datos
-% Se realiza la separaciÛn deseada
+% Se realiza la separaci√≥n deseada
 fprintf('Procesando Datos\n')
 IsFraud = table2array(TrainData(:,2));
 
@@ -20,7 +20,7 @@ TransactionNotFraud = TrainData(IsFraud == 0,:);% No es fraude
 TransactionIsFraud = TrainData(IsFraud == 1,:); % Si es fraude
 
 
-% Se separan los datos para permitir mejor manipulaciÛn de estos
+% Se separan los datos para permitir mejor manipulaci√≥n de estos
 
 % TransactionID
 TransactionIDNoFraud = table2array(TransactionNotFraud(:,1));
@@ -32,44 +32,44 @@ TransactionDTNoFraud = table2array(TransactionNotFraud(:,3));
 TransactionDTIsFraud = table2array(TransactionIsFraud(:,3));
 % TransactionDT: timedelta from a given reference datetime (not an actual 
 % timestamp) 
-% ìTransactionDT: first value is 86400, which corresponds to the number of 
+% ‚ÄúTransactionDT: first value is 86400, which corresponds to the number of 
 % seconds in a day (60 * 60 * 24 = 86400) so I think the unit is seconds. 
 % Using this, we know the data spans 6 months, as the maximum value is 
-% 15811131, which would correspond to day 183.î
+% 15811131, which would correspond to day 183.‚Äù
 
 % TransactionAMT
 TransactionAMTNoFraud = table2array(TransactionNotFraud(:,4));
 TransactionAMTIsFraud = table2array(TransactionIsFraud(:,4));
 % TransactionAMT: transaction payment amount in USD 
-% ìSome of the transaction amounts have three decimal places to the right 
+% ‚ÄúSome of the transaction amounts have three decimal places to the right 
 % of the decimal point. There seems to be a link to three decimal places 
 % and a blank addr1 and addr2 field. Is it possible that these are foreign 
 % transactions and that, for example, the 75.887 in row 12 is the result 
-% of multiplying a foreign currency amount by an exchange rate?î
+% of multiplying a foreign currency amount by an exchange rate?‚Äù
 
 % ProductCD
 ProductCDNoFraud = TransactionNotFraud(:,5);
 ProductCDIsFraud = TransactionIsFraud(:,5);
 % ProductCD: product code, the product for each transaction 
-% ìProduct isn't necessary to be a real 'product' (like one item to be 
-% added to the shopping cart). It could be any kind of service.î
+% ‚ÄúProduct isn't necessary to be a real 'product' (like one item to be 
+% added to the shopping cart). It could be any kind of service.‚Äù
 
 % Card1 - Card6
-CardNoFraud = TransactionNotFraud(:,[6:11]);
-CardIsFraud = TransactionIsFraud(:,[6:11]);
+CardNoFraud = TransactionNotFraud(:,6:11);
+CardIsFraud = TransactionIsFraud(:,6:11);
 % card1 - card6: payment card information, such as card type, card 
 % category, issue bank, country, etc.
 
 % Address
-AddressNoFraud = table2array(TransactionNotFraud(:,[12:13]));
-AddressIsFraud = table2array(TransactionIsFraud(:,[12:13]));
-% addr: address ìboth addresses are for purchaser, addr1 as billing region,
-% addr2 as billing countryî
+AddressNoFraud = table2array(TransactionNotFraud(:,12:13));
+AddressIsFraud = table2array(TransactionIsFraud(:,12:13));
+% addr: address ‚Äúboth addresses are for purchaser, addr1 as billing region,
+% addr2 as billing country‚Äù
 
 
 % Dist
-DistNoFraud = table2array(TransactionNotFraud(:,[14:15]));
-DistIsFraud = table2array(TransactionIsFraud(:,[14:15]));
+DistNoFraud = table2array(TransactionNotFraud(:,14:15));
+DistIsFraud = table2array(TransactionIsFraud(:,14:15));
 % P_EmailDomain
 P_EmailDomainNoFraud = TransactionNotFraud(:,16);
 P_EmailDomainIsFraud = TransactionIsFraud(:,16);
@@ -77,41 +77,41 @@ P_EmailDomainIsFraud = TransactionIsFraud(:,16);
 R_EmailDomainNoFraud = TransactionNotFraud(:,17);
 R_EmailDomainIsFraud = TransactionIsFraud(:,17);
 % dist: distance "distances between (not limited) billing address, mailing 
-% address, zip code, IP address, phone area, etc.î P_ and (R_) emaildomain:
-% purchaser and recipient email domain ì certain transactions don't need 
-% recipient, so Remaildomain is null.î
+% address, zip code, IP address, phone area, etc.‚Äù P_ and (R_) emaildomain:
+% purchaser and recipient email domain ‚Äú certain transactions don't need 
+% recipient, so Remaildomain is null.‚Äù
 
 % C1 - C14
-CNoFraud = table2array(TransactionNotFraud(:,[18:31]));
-CIsFraud = table2array(TransactionIsFraud(:,[18:31]));
+CNoFraud = table2array(TransactionNotFraud(:,18:31));
+CIsFraud = table2array(TransactionIsFraud(:,18:31));
 % C1-C14: counting, such as how many addresses are found to be associated 
-% with the payment card, etc. The actual meaning is masked. ìCan you please 
+% with the payment card, etc. The actual meaning is masked. ‚ÄúCan you please 
 % give more examples of counts in the variables C1-15? Would these be like 
 % counts of phone numbers, email addresses, names associated with the user? 
 % I can't think of 15. Your guess is good, plus like device, ipaddr, 
 % billingaddr, etc. Also these are for both purchaser and recipient, which 
-% doubles the number.î
+% doubles the number.‚Äù
 
 
 % D1 - D15
-DNoFraud = table2array(TransactionNotFraud(:,[32:46]));
-DIsFraud = table2array(TransactionIsFraud(:,[32:46]));
+DNoFraud = table2array(TransactionNotFraud(:,32:46));
+DIsFraud = table2array(TransactionIsFraud(:,32:46));
 % D1-D15: timedelta, such as days between previous transaction, etc.
 
 
 % M1 - M9
-MNoFraud = table2array(TransactionNotFraud(:,[47:55]));
-MIsFraud = table2array(TransactionIsFraud(:,[47:55]));
+MNoFraud = table2array(TransactionNotFraud(:,47:55));
+MIsFraud = table2array(TransactionIsFraud(:,47:55));
 % M1-M9: match, such as names on card and address, etc.
 
 
 % V1 - V339
-VNoFraud = TransactionNotFraud(:,[56:394]);
-VIsFraud = TransactionIsFraud(:,[56:394]);
+VNoFraud = TransactionNotFraud(:,56:394);
+VIsFraud = TransactionIsFraud(:,56:394);
 % Vxxx: Vesta engineered rich features, including ranking, counting,
 % and other entity relations. 
-% ìFor example, how many times the payment card associated with a IP and 
-% email or address appeared in 24 hours time range, etc.î
+% ‚ÄúFor example, how many times the payment card associated with a IP and 
+% email or address appeared in 24 hours time range, etc.‚Äù
 
 % "All Vesta features were derived as numerical. some of them are count of 
 % orders within a clustering, a time-period or condition, so the value is 
@@ -122,38 +122,142 @@ VIsFraud = TransactionIsFraud(:,[56:394]);
 
 toc
 
-%% VisualizaciÛn de datos
+%% Visualizaci√≥n de datos
 % TransactionDT
 figure
-histogram(TransactionDTNoFraud',100)
+histogram(TransactionDTNoFraud,100)
 hold on
-histogram(TransactionDTIsFraud',100)
+histogram(TransactionDTIsFraud,100)
 hold off
 xlabel('Transaction timedelta')
 grid on
-legend('No fradulenta','Fraudulenta')
+legend('No fradulento','Fraudulento')
+title('Transaction timedelta')
 
 % TransactionAMT
 figure
-histogram(TransactionAMTNoFraud',100)
+histogram(TransactionAMTNoFraud,100)
 hold on
-histogram(TransactionAMTIsFraud',100)
+histogram(TransactionAMTIsFraud,100)
 hold off
 xlabel('Transaction amount')
 grid on
-legend('No fradulenta','Fraudulenta')
+legend('No fradulento','Fraudulento')
+title('Transaction amount')
 
 % ProductCD
-
+figure
+histogram(ProductCDNoFraud,100)
+hold on
+histogram(ProductCDIsFraud,100)
+hold off
+xlabel('Transaction amount')
+grid on
+legend('No fradulento','Fraudulento')
+title('Transaction amount')
 
 % Card1 - Card6
+figure
+histogram(table2array(CardNoFraud(:,1)),100)
+hold on
+histogram(table2array(CardIsFraud(:,1)),100)
+hold off
+xlabel('Card 1')
+grid on
+legend('No fradulento','Fraudulento')
+title('Card 1')
 
+figure
+histogram(table2array(CardNoFraud(:,2)),100)
+hold on
+histogram(table2array(CardIsFraud(:,2)),100)
+hold off
+xlabel('Card 2')
+grid on
+legend('No fradulento','Fraudulento')
+title('Card 2')
+
+figure
+histogram(table2array(CardNoFraud(:,3)),100)
+hold on
+histogram(table2array(CardIsFraud(:,3)),100)
+hold off
+xlabel('Card 3')
+grid on
+legend('No fradulento','Fraudulento')
+title('Card 3')
+
+figure
+histogram(CardNoFraud(:,4),100)
+hold on
+histogram(CardIsFraud(:,4),100)
+hold off
+xlabel('Card 4')
+grid on
+legend('No fradulento','Fraudulento')
+title('Card 4')
+
+figure
+histogram(table2array(CardNoFraud(:,5)),100)
+hold on
+histogram(table2array(CardIsFraud(:,5)),100)
+hold off
+xlabel('Card 5')
+grid on
+legend('No fradulento','Fraudulento')
+title('Card 5')
+
+figure
+histogram(CardNoFraud(:,6),100)
+hold on
+histogram(CardIsFraud(:,6),100)
+hold off
+xlabel('Card 6')
+grid on
+legend('No fradulento','Fraudulento')
+title('Card 6')
 
 % Address
+figure
+histogram(AddressNoFraud(:,1),100)
+hold on
+histogram(AddressIsFraud(:,1),100)
+hold off
+xlabel('Billing Region')
+grid on
+legend('No fradulento','Fraudulento')
+title('Billing Region')
 
+figure
+histogram(AddressNoFraud(:,2),100)
+hold on
+histogram(AddressIsFraud(:,2),100)
+hold off
+xlabel('Billing Country')
+grid on
+legend('No fradulento','Fraudulento')
+title('Billing Country')
 
 % Dist
+figure
+histogram(DistNoFraud(:,1),100)
+hold on
+histogram(DistIsFraud(:,1),100)
+hold off
+xlabel('Distance between payment address and billing address')
+grid on
+legend('No fradulento','Fraudulento')
+title('Distance between payment address and billing address')
 
+figure
+histogram(DistNoFraud(:,2),100)
+hold on
+histogram(DistIsFraud(:,2),100)
+hold off
+xlabel('Distance between payment address and billing address')
+grid on
+legend('No fradulento','Fraudulento')
+title('Distance between payment address and billing address')
 
 % P_EmailDomain
 
@@ -162,13 +266,43 @@ legend('No fradulenta','Fraudulenta')
 
 
 % C1 - C14
-
+for i = 1:14
+    figure
+    histogram(CNoFraud(:,i),100)
+    hold on
+    histogram(CIsFraud(:,i),100)
+    hold off
+    xlabel(['C',num2str(i)])
+    grid on
+    legend('No fradulento','Fraudulento')
+    title('C')
+end
 
 % D1 - D15
-
+for i = 1:15
+    figure
+    histogram(DNoFraud(:,i),100)
+    hold on
+    histogram(DIsFraud(:,i),100)
+    hold off
+    xlabel(['D',num2str(i)])
+    grid on
+    legend('No fradulento','Fraudulento')
+    title('D')
+end
 
 % M1 - M9
+for i = 1:15
+    figure
+    histogram(DNoFraud(:,i),100)
+    hold on
+    histogram(DIsFraud(:,i),100)
+    hold off
+    xlabel(['D',num2str(i)])
+    grid on
+    legend('No fradulento','Fraudulento')
+    title('D')
+end
 
-
-% V1 - V339
+% V1 - V339 % Will not be plotted for resources reasons
 
