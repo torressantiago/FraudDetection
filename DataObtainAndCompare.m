@@ -119,10 +119,11 @@ VIsFraud = TransactionIsFraud(:,56:394);
 % of them as categorical. If any of them resulted in binary by chance, it 
 % maybe worth trying."
 
-
 toc
 
 %% Visualización de datos
+fprintf('Creando imágenes\n')
+tic
 % TransactionDT
 figure
 histogram(TransactionDTNoFraud,100)
@@ -146,15 +147,20 @@ legend('No fradulento','Fraudulento')
 title('Transaction amount')
 
 % ProductCD
-% figure
-% histogram(ProductCDNoFraud,100)
-% hold on
-% histogram(ProductCDIsFraud,100)
-% hold off
-% xlabel('Transaction amount')
-% grid on
-% legend('No fradulento','Fraudulento')
-% title('Transaction amount')
+[ProductCDNoFraudNum, ProducCDNoFraudList, ProductCDNoFraudNumberList] = ProductCDNumerized(ProductCDNoFraud);
+ProducCDNoFraudList = [ProducCDNoFraudList, table2cell(table(ProductCDNoFraudNumberList))];
+
+[ProductCDIsFraudNum, ProducCDIsFraudList, ProductCDIsFraudNumberList] = ProductCDNumerized(ProductCDIsFraud);
+ProducCDIsFraudList = [ProducCDIsFraudList, table2cell(table(ProductCDIsFraudNumberList))];
+figure
+histogram(ProductCDNoFraudNum,100)
+hold on
+histogram(ProductCDIsFraudNum,100)
+hold off
+xlabel('Product code')
+grid on
+legend('No fradulento','Fraudulento')
+title('Product code')
 
 % Card1 - Card6
 figure
@@ -187,15 +193,21 @@ grid on
 legend('No fradulento','Fraudulento')
 title('Card 3')
 
-% figure
-% histogram(CardNoFraud(:,4),100)
-% hold on
-% histogram(CardIsFraud(:,4),100)
-% hold off
-% xlabel('Card 4')
-% grid on
-% legend('No fradulento','Fraudulento')
-% title('Card 4')
+
+[CardBrandNoFraudNum, CardBrandNoFraudList, CardBrandNoFraudNumberList] = CardBrandNumerized(CardNoFraud(:,4));
+CardBrandNoFraudList = [CardBrandNoFraudList, table2cell(table({'0'},{'1'},{'2'},{'3'},{'4'}))'];
+
+[CardBrandIsFraudNum, CardBrandIsFraudList, CardBrandIsFraudNumberList] = CardBrandNumerized(CardIsFraud(:,4));
+CardBrandIsFraudList = [CardBrandIsFraudList, table2cell(table({'0'},{'1'},{'2'},{'3'},{'4'}))'];
+figure
+histogram(CardBrandNoFraudNum,5)
+hold on
+histogram(CardBrandIsFraudNum,5)
+hold off
+xlabel('Card 4')
+grid on
+legend('No fradulento','Fraudulento')
+title('Card 4')
 
 figure
 histogram(table2array(CardNoFraud(:,5)),100)
@@ -207,15 +219,21 @@ grid on
 legend('No fradulento','Fraudulento')
 title('Card 5')
 
-% figure
-% histogram(CardNoFraud(:,6),100)
-% hold on
-% histogram(CardIsFraud(:,6),100)
-% hold off
-% xlabel('Card 6')
-% grid on
-% legend('No fradulento','Fraudulento')
-% title('Card 6')
+
+[CardTypeNoFraudNum, CardTypeNoFraudList, CardTypeNoFraudNumberList] = CardType5Numerized(CardNoFraud(:,6));
+CardTypeNoFraudList = [CardTypeNoFraudList, table2cell(table({'0'},{'1'},{'2'},{'3'},{'4'}))'];
+
+[CardTypeIsFraudNum, CardTypeIsFraudList, CardTypeIsFraudNumberList] = CardTypeNumerized(CardIsFraud(:,6));
+CardTypeIsFraudList = [CardTypeIsFraudList, table2cell(table({'0'},{'1'},{'2'}))'];
+figure
+histogram(CardTypeNoFraudNum,3)
+hold on
+histogram(CardTypeIsFraudNum,3)
+hold off
+xlabel('Card 6')
+grid on
+legend('No fradulento','Fraudulento')
+title('Card 6')
 
 % Address
 figure
@@ -266,20 +284,35 @@ P_DomainNoFraud = [P_DomainNoFraud, table2cell(table(P_NumberListNoFraud))];
 P_DomainIsFraud = [P_DomainIsFraud, table2cell(table(P_NumberListIsFraud))];
 
 figure
+subplot(2,1,1)
 histogram(P_EmailDomainNoFraudWNum,60)
-hold on
-histogram(P_EmailDomainIsFraudWNum,43)
-hold off
 xlabel('Domain purchaser used for transaction')
 grid on
-legend('No fradulento','Fraudulento')
-title('Domain purchaser used for transaction')
-txt1 = '';
+title('Domain purchaser used for transaction | No Fraud')
+subplot(2,1,2)
+histogram(P_EmailDomainIsFraudWNum,43)
+xlabel('Domain purchaser used for transaction')
+grid on
+title('Domain purchaser used for transaction | Fraud')
 
 
 
 % R_EmailDomain
-
+[R_EmailDomainNoFraudWNum, R_DomainNoFraud, R_NumberListNoFraud] = R_EmailDomainNoFraudNumerized(R_EmailDomainNoFraud);
+R_DomainNoFraud = [R_DomainNoFraud, table2cell(table(R_NumberListNoFraud))];
+[R_EmailDomainIsFraudWNum, R_DomainIsFraud, R_NumberListIsFraud] = R_EmailDomainIsFraudNumerized(R_EmailDomainIsFraud);
+R_DomainIsFraud = [R_DomainIsFraud, table2cell(table(R_NumberListIsFraud))];
+figure
+subplot(2,1,1)
+histogram(R_EmailDomainNoFraudWNum,61)
+xlabel('Domain receiver used for transaction')
+grid on
+title('Domain receiver used for transaction | No Fraud')
+subplot(2,1,2)
+histogram(R_EmailDomainIsFraudWNum,33)
+xlabel('Domain receiver used for transaction')
+grid on
+title('Domain receiver used for transaction | Fraud')
 
 % C1 - C14
 for i = 1:14
@@ -307,22 +340,12 @@ for i = 1:15
     title('D')
 end
 
-% M1 - M9
-% for i = 1:9
-%     figure
-%     histogram(DNoFraud(:,i),100)
-%     hold on
-%     histogram(DIsFraud(:,i),100)
-%     hold off
-%     xlabel(['D',num2str(i)])
-%     grid on
-%     legend('No fradulento','Fraudulento')
-%     title('D')
-% end
+% M1 - M9  % Will not be plotted for resources reasons
+
 
 % V1 - V339 % Will not be plotted for resources reasons
 
-
+toc
 
 % Subroutine functions
 function [P_EmailDomainIsFraudNum, P_Domains, P_NumberList] = P_EmailDomainIsFraudNumerized(P_EmailDomain)
@@ -362,4 +385,99 @@ function [P_EmailDomainNoFraudNum, P_Domains, P_NumberList] = P_EmailDomainNoFra
     P_EmailDomainNoFraudNum(NaNP_EmailDomainIsFraud==1,:) = replace(P_EmailDomainNoFraudNum(NaNP_EmailDomainIsFraud==1,:),{''},{'0'});
     P_EmailDomainNoFraudNum = str2double(P_EmailDomainNoFraudNum);
     P_NumberList = unique(P_EmailDomainNoFraudNum);
+end
+
+function [R_EmailDomainIsFraudNum, R_Domains, R_NumberList] = R_EmailDomainIsFraudNumerized(R_EmailDomain)
+    R_EmailDomainIsFraudNum = table2cell(R_EmailDomain);
+    R_Domains = unique(R_EmailDomainIsFraudNum);
+
+    for i = 1:33
+        R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(i,:),num2str(i));
+    end
+    
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,{'14.mx'},{'1'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,{'29.mx'},{'15'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,{'proton17'},{'25'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,{'rocket17'},{'26'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,{'y17'},{'30'});
+    NaNP_EmailDomainIsFraud = cellfun('isempty',R_EmailDomainIsFraudNum);
+    R_EmailDomainIsFraudNum(NaNP_EmailDomainIsFraud==1,:) = replace(R_EmailDomainIsFraudNum(NaNP_EmailDomainIsFraud==1,:),{''},{'0'});
+    R_EmailDomainIsFraudNum = str2double(R_EmailDomainIsFraudNum);
+    R_NumberList = unique(R_EmailDomainIsFraudNum);
+end
+
+function [R_EmailDomainNoFraudNum, R_Domains, R_NumberList] = R_EmailDomainNoFraudNumerized(R_EmailDomain)
+    R_EmailDomainNoFraudNum = table2cell(R_EmailDomain);
+    R_Domains = unique(R_EmailDomainNoFraudNum);
+
+    for i = 1:61
+        R_EmailDomainNoFraudNum = strrep(R_EmailDomainNoFraudNum,R_Domains(i,:),num2str(i));
+    end
+    
+    R_EmailDomainNoFraudNum = strrep(R_EmailDomainNoFraudNum,{'17.com'},{'1'});
+    R_EmailDomainNoFraudNum = strrep(R_EmailDomainNoFraudNum,{'27.mx'},{'18'});
+    R_EmailDomainNoFraudNum = strrep(R_EmailDomainNoFraudNum,{'56.mx'},{'28'});
+    R_EmailDomainNoFraudNum = strrep(R_EmailDomainNoFraudNum,{'proton31'},{'40'});
+    R_EmailDomainNoFraudNum = strrep(R_EmailDomainNoFraudNum,{'rocket31'},{'44'});
+    R_EmailDomainNoFraudNum = strrep(R_EmailDomainNoFraudNum,{'y31'},{'57'});
+    NaNP_EmailDomainIsFraud = cellfun('isempty',R_EmailDomainNoFraudNum);
+    R_EmailDomainNoFraudNum(NaNP_EmailDomainIsFraud==1,:) = replace(R_EmailDomainNoFraudNum(NaNP_EmailDomainIsFraud==1,:),{''},{'0'});
+    R_EmailDomainNoFraudNum = str2double(R_EmailDomainNoFraudNum);
+    R_NumberList = unique(R_EmailDomainNoFraudNum);
+end
+
+function [ProductCDNum, ProductCDList, ProudctCDNumberList] = ProductCDNumerized(ProductCategory)
+    ProductCDNum = table2cell(ProductCategory);
+    ProductCDList = unique(ProductCDNum);
+
+    for i = 1:5
+        ProductCDNum = strrep(ProductCDNum,ProductCDList(i,:),num2str(i));
+    end
+    
+    NaNProductCD = cellfun('isempty',ProductCDNum);
+    ProductCDNum(NaNProductCD==1,:) = replace(ProductCDNum(NaNProductCD==1,:),{''},{'0'});
+    ProductCDNum = str2double(ProductCDNum);
+    ProudctCDNumberList = unique(ProductCDNum);
+end
+
+function [CardBrandNum, CardBrandList, CardBrandNumberList] = CardBrandNumerized(CardBrand)
+    CardBrandNum = table2cell(CardBrand);
+    CardBrandList = unique(CardBrandNum);
+
+    for i = 1:5
+        CardBrandNum = strrep(CardBrandNum,CardBrandList(i,:),num2str(i));
+    end
+    
+    NaNCardBrand = cellfun('isempty',CardBrandNum);
+    CardBrandNum(NaNCardBrand==1,:) = replace(CardBrandNum(NaNCardBrand==1,:),{''},{'0'});
+    CardBrandNum = str2double(CardBrandNum);
+    CardBrandNumberList = unique(CardBrandNum);
+end
+
+function [CardTypeNum, CardTypeList, CardTypeNumberList] = CardTypeNumerized(CardType)
+    CardTypeNum = table2cell(CardType);
+    CardTypeList = unique(CardTypeNum);
+
+    for i = 1:3
+        CardTypeNum = strrep(CardTypeNum,CardTypeList(i,:),num2str(i));
+    end
+    
+    NaNCardType = cellfun('isempty',CardTypeNum);
+    CardTypeNum(NaNCardType==1,:) = replace(CardTypeNum(NaNCardType==1,:),{''},{'0'});
+    CardTypeNum = str2double(CardTypeNum);
+    CardTypeNumberList = unique(CardTypeNum);
+end
+
+function [CardTypeNum, CardTypeList, CardTypeNumberList] = CardType5Numerized(CardType)
+    CardTypeNum = table2cell(CardType);
+    CardTypeList = unique(CardTypeNum);
+
+    for i = 1:5
+        CardTypeNum = strrep(CardTypeNum,CardTypeList(i,:),num2str(i));
+    end
+    
+    NaNCardType = cellfun('isempty',CardTypeNum);
+    CardTypeNum(NaNCardType==1,:) = replace(CardTypeNum(NaNCardType==1,:),{''},{'0'});
+    CardTypeNum = str2double(CardTypeNum);
+    CardTypeNumberList = unique(CardTypeNum);
 end
