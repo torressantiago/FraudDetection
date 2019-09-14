@@ -260,17 +260,22 @@ legend('No fradulento','Fraudulento')
 title('Distance between payment address and billing address')
 
 % P_EmailDomain
-P_EmailDomainIsFraud = table2cell(P_EmailDomainIsFraud);
-P_Domains = unique(P_EmailDomainIsFraud);
+P_EmailDomainIsFraudNum = table2cell(P_EmailDomainIsFraud);
+P_Domains = unique(P_EmailDomainIsFraudNum);
 
 for i = 1:42
-    P_EmailDomainIsFraud = strrep(P_EmailDomainIsFraud,P_Domains(i,:),num2str(i));
+    P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,P_Domains(i,:),num2str(i));
 end
-P_EmailDomainIsFraud = strrep(P_EmailDomainIsFraud,{'15.com'},{'15'});
-NaNP_EmailDomainIsFraud = cellfun('isempty',P_EmailDomainIsFraud);
-P_EmailDomainIsFraud(NaNP_EmailDomainIsFraud==1,:) = [P_EmailDomainIsFraud(NaNP_EmailDomainIsFraud==1,:),table2cell(table(num2str(NaNP_EmailDomainIsFraud(NaNP_EmailDomainIsFraud==1,:))))];
-P_EmailDomainIsFraud = cell2table(P_EmailDomainIsFraud);
-P_EmailDomainIsFraud = table2array(P_EmailDomainIsFraud);
+P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,{'15.com'},{'43'});
+P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,{'21.mx'},{'44'});
+P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,{'39.mx'},{'45'});
+P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,{'proton24'},{'46'});
+P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,{'rocket24'},{'47'});
+P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,{'y24'},{'48'});
+NaNP_EmailDomainIsFraud = cellfun('isempty',P_EmailDomainIsFraudNum);
+P_EmailDomainIsFraudNum(NaNP_EmailDomainIsFraud==1,:) = replace(P_EmailDomainIsFraudNum(NaNP_EmailDomainIsFraud==1,:),{''},{'0'});
+P_EmailDomainIsFraudNum = str2double(P_EmailDomainIsFraudNum);
+
 
 % R_EmailDomain
 
@@ -315,3 +320,5 @@ end
 % end
 
 % V1 - V339 % Will not be plotted for resources reasons
+
+% Subroutine functions
