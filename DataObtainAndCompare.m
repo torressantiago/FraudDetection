@@ -6,18 +6,30 @@ clear all
 close all
 clc
 %% Carga de datos de entrenamiento
-tic
 fprintf('Cargando Datos\n')
+tic
 TrainDataFile = 'Data/train_transaction.csv';
 TrainData = readtable(TrainDataFile);
+TrainDataFileII = 'Data/train_identity.csv';
+TrainDataII = readtable(TrainDataFileII);
+
+t(1) = toc
 %% Procesamiento de los datos
 % Se realiza la separación deseada
 fprintf('Procesando Datos\n')
+
+tic
+
 IsFraud = table2array(TrainData(:,2));
 
 % Se determina si es fraude
 TransactionNotFraud = TrainData(IsFraud == 0,:);% No es fraude
 TransactionIsFraud = TrainData(IsFraud == 1,:); % Si es fraude
+
+%This will make file II work
+TransactionIsNotFraudSerialNum = table2array(TrainDataII(:,1))-2987000;%TransactionNotFraud(:,1);
+TransactionIsFraudSerialNum = TransactionIsFraud(:,1);
+
 
 
 % Se separan los datos para permitir mejor manipulación de estos
@@ -119,11 +131,13 @@ VIsFraud = TransactionIsFraud(:,56:394);
 % of them as categorical. If any of them resulted in binary by chance, it 
 % maybe worth trying."
 
-toc
+t(2) = toc
 
 %% Visualización de datos
 fprintf('Creando imágenes\n')
+
 tic
+
 % TransactionDT
 figure
 histogram(TransactionDTNoFraud,100)
@@ -345,7 +359,11 @@ end
 
 % V1 - V339 % Will not be plotted for resources reasons
 
-toc
+t(3) = toc
+
+t = sum(t);
+
+fprintf("El tiempo total fue %d s\n",t)
 
 % Subroutine functions
 function [P_EmailDomainIsFraudNum, P_Domains, P_NumberList] = P_EmailDomainIsFraudNumerized(P_EmailDomain)
