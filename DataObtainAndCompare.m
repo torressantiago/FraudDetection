@@ -20,17 +20,19 @@ fprintf('Procesando Datos\n')
 
 tic
 
+%This will make file II work
+TrainDataII = join(TrainDataII,TrainData(:,[1:2]));
+
+
 IsFraud = table2array(TrainData(:,2));
+IsFraudII = table2array(TrainDataII(:,42));
 
 % Se determina si es fraude
 TransactionNotFraud = TrainData(IsFraud == 0,:);% No es fraude
 TransactionIsFraud = TrainData(IsFraud == 1,:); % Si es fraude
 
-%This will make file II work
-TransactionIsNotFraudSerialNum = table2array(TrainDataII(:,1))-2987000;%TransactionNotFraud(:,1);
-TransactionIsFraudSerialNum = TransactionIsFraud(:,1);
-
-
+TransactionNotFraudII = TrainDataII(IsFraudII == 0,:);% No es fraude
+TransactionIsFraudII = TrainDataII(IsFraudII == 1,:); % Si es fraude
 
 % Se separan los datos para permitir mejor manipulación de estos
 
