@@ -6,19 +6,34 @@ clear all
 close all
 clc
 %% Carga de datos de entrenamiento
-tic
 fprintf('Cargando Datos\n')
+tic
 TrainDataFile = 'Data/train_transaction.csv';
 TrainData = readtable(TrainDataFile);
+TrainDataFileII = 'Data/train_identity.csv';
+TrainDataII = readtable(TrainDataFileII);
+
+t(1) = toc;
+fprintf("%d",t(1));
 %% Procesamiento de los datos
 % Se realiza la separación deseada
 fprintf('Procesando Datos\n')
+
+tic
+
+%This will make file II work
+TrainDataII = join(TrainDataII,TrainData(:,1:2));
+
+
 IsFraud = table2array(TrainData(:,2));
+IsFraudII = table2array(TrainDataII(:,42));
 
 % Se determina si es fraude
 TransactionNotFraud = TrainData(IsFraud == 0,:);% No es fraude
 TransactionIsFraud = TrainData(IsFraud == 1,:); % Si es fraude
 
+TransactionNotFraudII = TrainDataII(IsFraudII == 0,:);% No es fraude
+TransactionIsFraudII = TrainDataII(IsFraudII == 1,:); % Si es fraude
 
 % Se separan los datos para permitir mejor manipulación de estos
 
@@ -119,11 +134,36 @@ VIsFraud = TransactionIsFraud(:,56:394);
 % of them as categorical. If any of them resulted in binary by chance, it 
 % maybe worth trying."
 
-toc
+% Data from second file
+% Id1 - Id38
+IdNoFraud = TransactionNotFraudII(:,2:38);
+IdIsFraud = TransactionIsFraudII(:,2:38);
+% “id01 to id11 are numerical features for identity, which is collected by 
+% Vesta and security partners such as device rating, ip_domain rating, 
+%proxy rating, etc. Also it recorded behavioral fingerprint like account 
+% login times/failed to login times, how long an account stayed on the 
+% page, etc. All of these are not able to elaborate due to security partner 
+% T&C. I hope you could get basic meaning of these features, and by 
+% mentioning them as numerical/categorical, you won't deal with them 
+% inappropriately.”
 
+% Device Type
+DeviceTypeNoFraud = TransactionNotFraudII(:,39);
+DeviceTypeIsFraud = TransactionIsFraudII(:,39);
+
+% Device Info
+DeviceInfoNoFraud = TransactionNotFraudII(:,40);
+DeviceInfoIsFraud = TransactionIsFraudII(:,40);
+
+% 
+
+t(2) = toc;
+fprintf("%d",t(2));
 %% Visualización de datos
 fprintf('Creando imágenes\n')
+
 tic
+
 % TransactionDT
 figure
 histogram(TransactionDTNoFraud,100)
@@ -345,7 +385,14 @@ end
 
 % V1 - V339 % Will not be plotted for resources reasons
 
-toc
+% Data from the second file will not be plotted for resource reasons
+
+t(3) = toc;
+fprintf("%d",t(3));
+
+t = sum(t);
+
+fprintf("El tiempo total fue %d s\n",t)
 
 % Subroutine functions
 function [P_EmailDomainIsFraudNum, P_Domains, P_NumberList] = P_EmailDomainIsFraudNumerized(P_EmailDomain)
