@@ -132,7 +132,7 @@ R_EmailDomainIsFraud = TransactionIsFraud(:,17);
 [R_EmailDomainNoFraudWNum, R_DomainNoFraud, R_NumberListNoFraud] = R_EmailDomainNoFraudNumerized(R_EmailDomainNoFraud);
 R_DomainNoFraud = [R_DomainNoFraud, table2cell(table(R_NumberListNoFraud))];
 [R_EmailDomainIsFraudWNum, R_DomainIsFraud, R_NumberListIsFraud] = R_EmailDomainIsFraudNumerized(R_EmailDomainIsFraud);
-R_DomainIsFraud = [R_DomainIsFraud, table2cell(table(R_NumberListIsFraud))];
+R_DomainIsFraud = [R_DomainIsFraud, table2cell(table([0,1,2,3,5,9,10,11,12,17,20,22,24,26,27,29,30,31,32,34,35,36,37,38,39,43,44,48,55,56,58,59,60]'))];
 
 % dist: distance "distances between (not limited) billing address, mailing 
 % address, zip code, IP address, phone area, etc.” P_ and (R_) emaildomain:
@@ -284,15 +284,39 @@ function [R_EmailDomainIsFraudNum, R_Domains, R_NumberList] = R_EmailDomainIsFra
     R_EmailDomainIsFraudNum = table2cell(R_EmailDomain);
     R_Domains = unique(R_EmailDomainIsFraudNum);
 
-    for i = 1:33
-        R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(i,:),num2str(i));
-    end
-    
-    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,{'14.mx'},{'1'});
-    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,{'29.mx'},{'15'});
-    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,{'proton17'},{'25'});
-    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,{'rocket17'},{'26'});
-    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,{'y17'},{'30'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(2,:),{'1'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(3,:),{'2'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(4,:),{'3'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(5,:),{'5'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(6,:),{'9'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(7,:),{'10'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(8,:),{'11'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(9,:),{'12'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(10,:),{'17'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(11,:),{'20'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(12,:),{'22'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(13,:),{'24'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(14,:),{'26'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(15,:),{'27'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(16,:),{'29'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(17,:),{'30'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(18,:),{'31'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(19,:),{'32'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(20,:),{'34'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(21,:),{'35'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(22,:),{'36'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(23,:),{'37'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(24,:),{'38'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(25,:),{'39'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(26,:),{'43'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(27,:),{'44'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(28,:),{'48'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(29,:),{'55'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(30,:),{'56'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(31,:),{'58'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(32,:),{'59'});
+    R_EmailDomainIsFraudNum = strrep(R_EmailDomainIsFraudNum,R_Domains(33,:),{'60'});
+
     NaNP_EmailDomainIsFraud = cellfun('isempty',R_EmailDomainIsFraudNum);
     R_EmailDomainIsFraudNum(NaNP_EmailDomainIsFraud==1,:) = replace(R_EmailDomainIsFraudNum(NaNP_EmailDomainIsFraud==1,:),{''},{'0'});
     R_EmailDomainIsFraudNum = str2double(R_EmailDomainIsFraudNum);
@@ -376,29 +400,3 @@ function [CardTypeNum, CardTypeList, CardTypeNumberList] = CardType5Numerized(Ca
     CardTypeNum = str2double(CardTypeNum);
     CardTypeNumberList = unique(CardTypeNum);
 end
-
-%% trying stuff
-% [P_EmailDomainNoFraudWNum, P_DomainNoFraud, P_NumberListNoFraud] = P_EmailDomainNoFraudNumerized(P_EmailDomainNoFraud);
-% P_DomainNoFraud = [P_DomainNoFraud, table2cell(table(P_NumberListNoFraud))];
-
-% function [P_EmailDomainIsFraudNum, P_Domains, P_NumberList] = P_EmailDomainIsFraudNumerized(P_EmailDomain)%,P_EmailDomainNoFraud)
-%     P_EmailDomainIsFraudNum = table2cell(P_EmailDomain);
-%     P_Domains = unique(P_EmailDomainIsFraudNum);
-% 
-%     for i = 1:42
-%         %if P_EmailDomainNoFraud(i,1) == P_Domains(i);
-%         P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,P_Domains(i,:),num2str(i));
-%     end
-%     
-%     P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,{'15.com'},{'1'});
-%     P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,{'21.mx'},{'16'});
-%     P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,{'39.mx'},{'22'});
-%     P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,{'proton24'},{'32'});
-%     P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,{'rocket24'},{'34'});
-%     P_EmailDomainIsFraudNum = strrep(P_EmailDomainIsFraudNum,{'y24'},{'40'});
-%     NaNP_EmailDomainIsFraud = cellfun('isempty',P_EmailDomainIsFraudNum);
-%     P_EmailDomainIsFraudNum(NaNP_EmailDomainIsFraud==1,:) = replace(P_EmailDomainIsFraudNum(NaNP_EmailDomainIsFraud==1,:),{''},{'0'});
-%     P_EmailDomainIsFraudNum = str2double(P_EmailDomainIsFraudNum);
-%     P_NumberList = unique(P_EmailDomainIsFraudNum);
-% end
-
