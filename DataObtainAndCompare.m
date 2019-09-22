@@ -65,6 +65,7 @@ TransactionAMTIsFraud = table2array(TransactionIsFraud(:,4));
 % ProductCD
 ProductCDNoFraud = TransactionNotFraud(:,5);
 ProductCDIsFraud = TransactionIsFraud(:,5);
+
 [ProductCDNoFraudNum, ProducCDNoFraudList, ProductCDNoFraudNumberList] = ProductCDNumerized(ProductCDNoFraud);
 ProducCDNoFraudList = [ProducCDNoFraudList, table2cell(table(ProductCDNoFraudNumberList))];
  
@@ -317,9 +318,11 @@ function [CardTypeNum, CardTypeList, CardTypeNumberList] = CardTypeNumerized(Car
     CardTypeNum = table2cell(CardType);
     CardTypeList = unique(CardTypeNum);
 
-    for i = 1:3
-        CardTypeNum = strrep(CardTypeNum,CardTypeList(i,:),num2str(i));
-    end
+%     for i = 1:3
+%         CardTypeNum = strrep(CardTypeNum,CardTypeList(i,:),num2str(i));
+%     end
+    CardTypeNum = strrep(CardTypeNum,{'credit'},{'2'});
+    CardTypeNum = strrep(CardTypeNum,{'debit'},{'3'});
     
     NaNCardType = cellfun('isempty',CardTypeNum);
     CardTypeNum(NaNCardType==1,:) = replace(CardTypeNum(NaNCardType==1,:),{''},{'0'});
