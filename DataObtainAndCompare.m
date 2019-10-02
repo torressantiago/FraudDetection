@@ -632,4 +632,10 @@ end
 % t(3) = toc;
 % fprintf("%d",t(3));
 
-%Victor
+%Victor es lo mas play
+%v1-v339
+%for i=56:394  
+%V1-v339notfraud = table2array(TransactionNotFraud(:,i));
+%V1-v339isfraud = table2array(TransactionIsFraud(:,i));
+%end
+
