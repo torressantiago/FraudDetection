@@ -46,3 +46,6 @@ end
 % Renmove product code and separate y array
 xtrain = NTrainData(:, 3:end);
 ytrain = NTrainData(:, 2);
+
+save xtrain.mat xtrain
+save ytrain.mat ytrain
