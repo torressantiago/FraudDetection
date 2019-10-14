@@ -25,10 +25,11 @@ for i = 1:18
     NEval(:,i) = Eval(:, col);
 end
 
-NEval = NEval(360:end,:);
+NEval = NEval(360:end,1:18);
 
 % Step 5: Transform original matrix to new space
-xtrainp = xtrain*NEval';
+xtrainp = NEvect'*xtrain';
+xtrainp = xtrainp';
 
 % Save results
 save xtrainp.mat xtrainp
