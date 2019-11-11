@@ -43,9 +43,9 @@ end
 %     fprintf("The matrix has NaN numbers\n")
 % end
 
-% Renmove product code and separate y array
-xtrain = NTrainData(:, 4:end);
-ytrain = NTrainData(:, 2);
+% Remove product code and separate y array
+X = NTrainData(:, 4:end);
+Y = double(~(NTrainData(:, 2)));
 
-save xtrain.mat xtrain
-save ytrain.mat ytrain
+% save X.mat X
+% save Y.mat Y

@@ -79,5 +79,5 @@ TrainData = [A, B];
 
 TrainDataH = [AH, BH];
 
-% save TrainData.mat TrainData
-% save TrainDataH.mat TrainDataH
+save TrainData.mat TrainData
+save TrainDataH.mat TrainDataH
