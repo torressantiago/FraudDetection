@@ -1,5 +1,5 @@
 # Fraud Detection
-Proyecto desarrollado por Santiago Torres y Victor Munera como proyecto para la clase de Inteligencia Artificial en la Pontificia Universidad Javeriana.
+Proyecto desarrollado por Santiago Torres como proyecto para la clase de Inteligencia Artificial en la Pontificia Universidad Javeriana.
 
 # Introducción
 Este proyecto busca continuar la invitación hecha en https://bit.ly/2zjyIwv [1] un reto de kaggle.com y Vesta Corportation para mejorar los algoritmos de prevención de fraude financiero. El ejercicio ilustra que los algoritmos de machine learning que normalmente se utilizan, si bien efectivos, no siempre son perfectos. EL problema propone hacer la revisión de diferentes algoritmos para obtener cuál es el mejor. Sin embargo, nuestra propuesta es desarrollar un nuevo algoritmo de prevención basado en machine learning a partir de la base de datos propuesta por Vesta Corportation. La base de datos contiene 590540 datos de tipo de transacción, si la transacción fue fraude, tipo de tarjeta, dominio del cuál proviene la solicitud de transacción, entre otros.
